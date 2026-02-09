@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín Gigi? 💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe6f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Corazones de fondo */
+        .heart-bg {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.15;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        /* Ventana estilo Windows */
+        .window {
+            width: 90%;
+            max-width: 600px;
+            background: #ffb6d9;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .title-bar {
+            background: linear-gradient(180deg, #ff85c0 0%, #ff6bb5 100%);
+            padding: 8px;
+            border-bottom: 4px solid #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-text {
+            font-size: 12px;
+            color: #fff;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .window-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 24px;
+            height: 24px;
+            background: #ddd;
+            border: 2px solid #000;
+            font-size: 14px;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            padding: 30px 20px;
+            text-align: center;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        /* Scrollbar personalizado */
+        .content::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #ffd4e8;
+            border-left: 2px solid #000;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #ff85c0;
+            border: 2px solid #000;
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #ff6bb5;
+        }
+
+        .message {
+            font-size: 11px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: #333;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
+            border: 2px solid #000;
+        }
+
+        .question {
+            font-size: 14px;
+            margin: 25px 0;
+            color: #d41872;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Imagen del pug */
+        .pug-container {
+            margin: 25px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pug-placeholder {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 3px dashed #ff85c0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+            image-rendering: pixelated;
+        }
+
+        .pug-image {
+            max-width: 200px;
+            max-height: 200px;
+            image-rendering: pixelated;
+        }
+
+        /* Términos y condiciones */
+        .terms-container {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 10px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            border: 2px solid #000;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-label:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            image-rendering: pixelated;
+        }
+
+        .terms-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid #000;
+            margin-bottom: 15px;
+        }
+
+        .terms-content.show {
+            max-height: 500px;
+            padding: 15px;
+        }
+
+        .terms-content ul {
+            font-size: 9px;
+            line-height: 2;
+            list-style: none;
+        }
+
+        .terms-content li {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .terms-content li:before {
+            content: "♥";
+            position: absolute;
+            left: 0;
+            color: #ff6bb5;
+        }
+
+        /* Botones */
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            border: 4px solid #000;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s;
+            image-rendering: pixelated;
+        }
+
+        .btn:active {
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+            transform: translate(2px, 2px);
+        }
+
+        .btn-yes {
+            background: #4ade80;
+            color: #fff;
+        }
+
+        .btn-yes:hover {
+            background: #22c55e;
+        }
+
+        .btn-yes:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-yes:disabled:hover {
+            background: #9ca3af;
+        }
+
+        .btn-yes:disabled:active {
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+            transform: translate(0, 0);
+        }
+
+        .btn-no {
+            background: #f87171;
+            color: #fff;
+            position: relative;
+        }
+
+        /* Pantalla de celebración */
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 182, 217, 0.95);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .celebration.show {
+            display: flex;
+        }
+
+        .celebration-content {
+            text-align: center;
+            padding: 40px;
+            background: #ffb6d9;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+        }
+
+        .celebration h2 {
+            font-size: 16px;
+            color: #d41872;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .celebration-image {
+            margin: 20px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Partículas - z-index mayor para que aparezcan encima de todo */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 150;
+        }
+
+        .confetti {
+            width: 10px;
+            height: 10px;
+            animation: fall 3s linear forwards;
+        }
+
+        .heart-particle {
+            font-size: 24px;
+            animation: fall-heart 3s ease-in forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fall-heart {
+            to {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            .title-text {
+                font-size: 10px;
+            }
+
+            .question {
+                font-size: 12px;
+            }
+
+            .message {
+                font-size: 9px;
+            }
+
+            .btn {
+                font-size: 10px;
+                padding: 12px 20px;
+            }
+
+            .terms-content ul {
+                font-size: 8px;
+            }
+
+            .celebration h2 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Corazones de fondo (más cantidad distribuidos mejor) -->
+    <div class="heart-bg" style="top: 30%; left: 30%;">💕</div>
+    <div class="heart-bg" style="top: 20%; right: 15%; animation-delay: 1s;">💖</div>
+    <div class="heart-bg" style="bottom: 15%; left: 20%; animation-delay: 2s;">💗</div>
+    <div class="heart-bg" style="bottom: 25%; right: 10%; animation-delay: 3s;">💝</div>
+    <div class="heart-bg" style="top: 50%; left: 5%; animation-delay: 1.5s;">💕</div>
+    <div class="heart-bg" style="top: 60%; right: 5%; animation-delay: 2.5s;">💖</div>
+    <div class="heart-bg" style="top: 15%; left: 50%; animation-delay: 0.5s;">💗</div>
+    <div class="heart-bg" style="top: 70%; left: 15%; animation-delay: 3.5s;">💝</div>
+    <div class="heart-bg" style="top: 40%; right: 25%; animation-delay: 2s;">💕</div>
+    <div class="heart-bg" style="bottom: 30%; left: 40%; animation-delay: 1s;">💖</div>
+    <div class="heart-bg" style="bottom: 40%; right: 30%; animation-delay: 2.5s;">💗</div>
+    <div class="heart-bg" style="top: 10%; left: 70%; animation-delay: 1.2s;">💝</div>
+    <div class="heart-bg" style="bottom: 10%; left: 60%; animation-delay: 3s;">💕</div>
+    <div class="heart-bg" style="top: 80%; right: 20%; animation-delay: 0.8s;">💖</div>
+    <div class="heart-bg" style="top: 35%; left: 80%; animation-delay: 1.8s;">💗</div>
+    <div class="heart-bg" style="bottom: 20%; right: 40%; animation-delay: 2.2s;">💝</div>
+
+    <!-- Ventana principal -->
+    <div class="window">
+        <div class="title-bar">
+            <span class="title-text">₊˚ʚ 💌 Invitación Especial.exe ₊˚ʚ ➼➻❥</span>
+            <div class="window-buttons">
+                <div class="window-btn">_</div>
+                <div class="window-btn">□</div>
+                <div class="window-btn">×</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="message">
+                ☆ Hola mi Gigi 💕
+                <br><br>
+                ☆ Sé que no podemos vernos hoy, pero quería hacerte esta pregunta especial de una forma especial...
+                <br><br>
+                ☆ He preparado algo lindo para nosotros este San Valentín y me encantaría que me acompañaras ♥
+                <br><br>
+                <span style="opacity: 0.5; font-size: 0.8em;">
+                    Cuidado dices que no 🐈
+                </span>
+            </div>
+
+            <div class="pug-container">
+                <!-- Reemplaza este div con tu imagen del pug -->
+                <div class="pug-placeholder">
+                    <br><br>
+                    <img src="pug.png" alt="Pug" class="pug_image" style="width: 300px; height: auto; border-radius: 10px;">
+                </div>
+                <!-- Cuando tengas tu imagen, usa esto:
+                <img src="pug-corazon.png" alt="Pug con corazón" class="pug-image">
+                -->
+            </div>
+
+            <div class="question">
+                ¿Quieres ser mi San Valentín?
+            </div>
+
+            <div class="terms-container">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="termsCheckbox">
+                    <span>Aceptar términos y condiciones</span>
+                </label>
+
+                <div class="terms-content" id="termsContent">
+                    <ul>
+                        <li><strong>.• La cita incluye lo siguiente: •.°°</strong></li>
+                        <li>El lugar de la cita es en el parque ecológico el día sabado a las 2pm</li>
+                        <li>Haremos un picnic juntos, la comida a llevar será un acuerdo entre tú y yo, pero no podrá
+                            faltar la jícama;)</li>
+                        <li>Llevar stickers favoritos del otro.</li>
+                        <li>Ir con toda la actitud antes de asistir</li>
+                        <li>Estar dispuesta a aceptar juegos dinámicos a realizar dicho día</li>
+                        <li>Pedir permiso con anticipación. Nada de escaparse eh</li>
+                        <li><strong>AVISO:</strong> Ante cualquier situación que nos obligue a no poder asistir se
+                            tomará con calma y se hará un plan B ( Día de películas y Roblox juntos a distancia♥ )</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-yes" id="btnYes" disabled>SÍ ♥</button>
+                <button class="btn btn-no" id="btnNo">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de celebración -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <h2>
+                YUPPIIII ¡SABÍA QUE DIRÍAS QUE SÍ! 🐈
+                <br><br>
+                💕💕💕
+                <br><br>
+                ¡Nos vemos el sábado mi amor!
+                <br><br>
+                <span style="opacity: 0.5; font-size: 0.8em;">
+                    ☆ Mandame captura de pantalla JASFKSAFK ;(
+                </span>
+            </h2>
+
+            <div class="celebration-image">
+                <!-- Reemplaza este div con tu imagen del gato + pug -->
+                <div class="pug-placeholder">
+                    <br><br>
+                    <img src="gato_pug.png" alt="Gato y Pug" class="pug_image" style="width: 250px ; height: auto; border-radius: 3px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Música de fondo -->
+    <audio id="bgMusic" loop>
+        <source src="musica-fondo.mp3" type="audio/mpeg">
+        <!-- También puedes usar .ogg o .wav -->
+        <source src="musica-fondo.ogg" type="audio/ogg">
+    </audio>
+
+    <script>
+        // Música de fondo
+        const bgMusic = document.getElementById('bgMusic');
+
+        // Intentar reproducir la música automáticamente
+        // Nota: Algunos navegadores bloquean autoplay, en ese caso se reproduce al primer clic
+        window.addEventListener('load', function () {
+            bgMusic.volume = 0.3; // Volumen al 30%
+            bgMusic.play().catch(function (error) {
+                // Si falla el autoplay, intentar reproducir al primer clic del usuario
+                document.body.addEventListener('click', function playOnClick() {
+                    bgMusic.play();
+                    document.body.removeEventListener('click', playOnClick);
+                }, { once: true });
+            });
+        });
+
+        // Términos y condiciones
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const termsContent = document.getElementById('termsContent');
+        const btnYes = document.getElementById('btnYes');
+
+        termsCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                termsContent.classList.add('show');
+                btnYes.disabled = false;
+            } else {
+                termsContent.classList.remove('show');
+                btnYes.disabled = true;
+            }
+        });
+
+        // Botón NO que se mueve
+        const btnNo = document.getElementById('btnNo');
+
+        btnNo.addEventListener('mouseenter', function () {
+            moveButton();
+        });
+
+        btnNo.addEventListener('touchstart', function (e) {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function moveButton() {
+            const maxX = window.innerWidth - btnNo.offsetWidth - 50;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 50;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        }
+
+        // Botón SÍ - Celebración
+        const celebration = document.getElementById('celebration');
+
+        btnYes.addEventListener('click', function () {
+            celebration.classList.add('show');
+            createConfetti();
+            createHearts();
+        });
+
+        // Crear confeti
+        function createConfetti() {
+            const colors = ['#ff6bb5', '#ffb6d9', '#4ade80', '#fbbf24', '#a78bfa'];
+
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'particle confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Crear corazones
+        function createHearts() {
+            const hearts = ['💕', '💖', '💗', '💝', '❤️', '💘'];
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'particle heart-particle';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = '-30px';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+
+</html>
